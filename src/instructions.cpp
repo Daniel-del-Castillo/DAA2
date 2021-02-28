@@ -176,6 +176,9 @@ void WriteInstruction::execute(MemoryState& mem) {
         mem.output << operand << "\n";
         break;
     case Mode::DIRECT:
+        if (operand == ACCUMULATOR_REG) {
+            throw INVALID_WRITE;
+        }
         mem.output << mem.registers[operand] << "\n";
         break;
     case Mode::INDIRECT:
