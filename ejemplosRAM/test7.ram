@@ -10,14 +10,14 @@
 			
 lee:		read 1
 				load 1
-				jzero fin
+				jzero fin ; 10
 
 				store *2
 				load 2
 				add =1
 				store 2
 
-				jump lee
+				jump lee ; 2
 
 fin:		load =0
 				store *2
@@ -25,7 +25,7 @@ fin:		load =0
 				store 2
 
 carga:	load *2
-				jzero fin2
+				jzero fin2 ; 23
 
 				mult =3
 				store *2
@@ -35,6 +35,6 @@ carga:	load *2
 				add =1
 				store 2
 			
-				jump carga
+				jump carga ; 14
 
 fin2: 	halt

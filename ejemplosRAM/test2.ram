@@ -9,22 +9,22 @@
 					STORE 2
 					READ 1
 while:		LOAD 1
-					JZERO end_wh
+					JZERO end_wh ; 17
 					LOAD 1
 					SUB =1
-					JZERO else
+					JZERO else ; 12
 					LOAD 2
 					SUB =1
 					STORE 2
-					JUMP end_if
+					JUMP end_if ; 15
 else:			LOAD 2
 					ADD =1
 					STORE 2
 end_if:		READ 1
-					JUMP while
+					JUMP while ; 3
 end_wh:		LOAD 2
-					JZERO iguales
+					JZERO iguales ; 21
 					WRITE =0
-					JUMP fin
+					JUMP fin ; 22
 iguales:	WRITE =1
 fin:			HALT
