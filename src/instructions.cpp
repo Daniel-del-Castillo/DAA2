@@ -146,7 +146,13 @@ std::string DivInstruction::to_string() {
 int read_number(std::fstream& input) {
     std::string number_str;
     std::getline(input, number_str);
-    return std::stoi(number_str);
+    int number;
+    try {
+        number = std::stoi(number_str);
+    } catch(std::exception& e) {
+        throw INVALID_INPUT + number_str; 
+    }
+    return number;
 }
 
 void ReadInstruction::execute(MemoryState& mem) {

@@ -7,6 +7,7 @@
 #define INVALID_MODE std::string("This instruction has an invalid mode")
 #define INVALID_STORE std::string("The STORE instruction can't be used with an inmediate operand")
 #define INVALID_READ std::string("The READ instruction can't be used with an inmediate operand")
+#define INVALID_INPUT std::string("The READ instruction read something invalid: ")
 #define INVALID_WRITE std::string("The WRITE instruction can't be used to write the content of the accumulator")
 #define EXECUTION_END std::string("The execution finished succesfully")
 #define ACCUMULATOR_REG 0

@@ -11,8 +11,12 @@ RAM::~RAM() {
     for(Instruction* instruction : instructions) {
         delete instruction;
     }
-    mem.input.close();
-    mem.output.close();
+}
+
+void RAM::execute() {
+    for(Instruction* instruction: instructions) {
+        instruction->execute(mem);
+    }
 }
 
 instructions_vec& RAM::get_instructions() {
