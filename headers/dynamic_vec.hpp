@@ -1,21 +1,22 @@
 #pragma once
 
-#define INITIAL_SIZE 10
+#define INITIAL_SIZE 5
 
 template<class T>
 class DynamicVec {
     T* content;
-    unsigned size;
+    unsigned content_size;
     
    public:
     DynamicVec();
     ~DynamicVec(); 
     T& operator[](unsigned index);
+    unsigned size();
 };
 
 template<class T>
 DynamicVec<T>::DynamicVec() {
-    size = INITIAL_SIZE;
+    content_size = INITIAL_SIZE;
     content = new T[INITIAL_SIZE];
 }
 
@@ -26,14 +27,19 @@ DynamicVec<T>::~DynamicVec() {
 
 template<class T>
 T& DynamicVec<T>::operator[](unsigned index) {
-    if (index >= size) {
-        T* new_content = new T[index + INITIAL_SIZE];
-        for (unsigned i = 0; i < size; i++) {
+    if (index >= content_size) {
+        T* new_content = new T[index + 1];
+        for (unsigned i = 0; i < content_size; i++) {
             new_content[i] = content[i];
         }
         delete content;
         content = new_content;
-        size = index + INITIAL_SIZE;
+        content_size = index + 1;
     }
     return content[index];
+}
+
+template<class T>
+unsigned DynamicVec<T>::size() {
+    return content_size;
 }

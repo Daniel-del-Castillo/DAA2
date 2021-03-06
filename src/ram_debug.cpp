@@ -1,7 +1,13 @@
 #include "headers/ram_debug.hpp"
 
+void RAMDebug::show_registers() {
+    for (int i = 0; i < mem.registers.size(); i++) {
+       std::cout << "[" << i << "] => " << mem.registers[i] << "\n"; 
+    }
+}
+
 void show_help() {
-    std::cout << "r: see the registries\n";
+    std::cout << "r: see the registers\n";
     std::cout << "t: trace\n";
     std::cout << "e: execute\n";
     std::cout << "s: disassembly\n";
@@ -17,6 +23,9 @@ void RAMDebug::ask_user_for_action() {
     std::cout << ">";
     std::getline(std::cin, input);
     switch (input[0]) {
+    case 'r':
+        show_registers();
+        break;
     case 't':
         instructions[mem.instruction_counter]->execute(mem);
         break;
