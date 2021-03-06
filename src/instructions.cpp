@@ -1,5 +1,48 @@
 #include "headers/instructions.hpp"
 
+InvalidInstruction::InvalidInstruction(const std::string& s) {
+    message = s;
+}
+
+const char* InvalidMode::what() const noexcept {
+    message = std::string("This instruction has an invalid mode: ") + message;
+    return message.c_str();
+}
+
+const char* InvalidStore::what() const noexcept {
+    message =  std::string("The STORE instruction can't be used with an inmediate operand")
+        + message;
+    return message.c_str();
+}
+
+const char* InvalidRead::what() const noexcept {
+    message = std::string("The READ instruction can't be used with an inmediate operand")
+        + message;
+    return message.c_str();
+}
+
+const char* InvalidInput::what() const noexcept {
+    message = std::string("The READ instruction read something invalid: ")
+        + message;
+    return message.c_str();
+}
+
+const char* InvalidWrite::what() const noexcept {
+    message = std::string("The WRITE instruction can't be used to write the content of the accumulator: ") 
+        + message;
+    return message.c_str();
+}
+
+const char* DivisionByZero::what() const noexcept {
+    message = std::string("Can't divide by zero! Happened in instruction: ")
+        + message;
+    return message.c_str();
+}
+
+const char* ExecutionEnd::what() const noexcept {
+    return "The execution finished succesfully";
+}
+
 Instruction::Instruction(int operand, Mode mode) {
     this->operand = operand;
     this->mode = mode;
@@ -32,7 +75,7 @@ void LoadInstruction::execute(MemoryState& mem) {
         mem.registers[ACCUMULATOR_REG] = value;
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -45,7 +88,7 @@ void StoreInstruction::execute(MemoryState& mem) {
     int value;
     switch (mode) {
     case Mode::INMEDIATE:
-        throw INVALID_STORE;
+        throw InvalidStore(to_string());
         break;
     case Mode::DIRECT:
         value = mem.registers[ACCUMULATOR_REG];
@@ -56,7 +99,7 @@ void StoreInstruction::execute(MemoryState& mem) {
         mem.registers[mem.registers[operand]] = value;
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -80,7 +123,7 @@ void AddInstruction::execute(MemoryState& mem) {
         mem.registers[ACCUMULATOR_REG] += value;
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -104,7 +147,7 @@ void SubInstruction::execute(MemoryState& mem) {
         mem.registers[ACCUMULATOR_REG] -= value;
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -128,7 +171,7 @@ void MultInstruction::execute(MemoryState& mem) {
         mem.registers[ACCUMULATOR_REG] *= value;
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -142,26 +185,26 @@ void DivInstruction::execute(MemoryState& mem) {
     switch (mode) {
     case Mode::INMEDIATE:
         if (operand == 0) {
-            throw DIVSION_BY_0;
+            throw DivisionByZero(to_string());
         }
         mem.registers[ACCUMULATOR_REG] /= operand;
         break;
     case Mode::DIRECT:
         if (mem.registers[operand] == 0) {
-            throw DIVSION_BY_0;
+            throw DivisionByZero(to_string());
         }
         value = mem.registers[operand];
         mem.registers[ACCUMULATOR_REG] /= value;
         break;
     case Mode::INDIRECT:
         if (mem.registers[mem.registers[operand]] == 0) {
-            throw DIVSION_BY_0;
+            throw DivisionByZero(to_string());
         }
         value = mem.registers[mem.registers[operand]];
         mem.registers[ACCUMULATOR_REG] /= value;
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -177,7 +220,7 @@ int read_number(std::fstream& input) {
     try {
         number = std::stoi(number_str);
     } catch(std::exception& e) {
-        throw INVALID_INPUT + number_str; 
+        throw InvalidInput(number_str); 
     }
     return number;
 }
@@ -185,7 +228,7 @@ int read_number(std::fstream& input) {
 void ReadInstruction::execute(MemoryState& mem) {
     switch (mode) {
     case Mode::INMEDIATE:
-        throw INVALID_READ;
+        throw InvalidRead(to_string());
         break;
     case Mode::DIRECT:
         mem.registers[operand] = read_number(mem.input);
@@ -194,7 +237,7 @@ void ReadInstruction::execute(MemoryState& mem) {
         mem.registers[mem.registers[operand]] = read_number(mem.input);
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -210,7 +253,7 @@ void WriteInstruction::execute(MemoryState& mem) {
         break;
     case Mode::DIRECT:
         if (operand == ACCUMULATOR_REG) {
-            throw INVALID_WRITE;
+            throw InvalidWrite(to_string());
         }
         mem.output << mem.registers[operand] << "\n";
         break;
@@ -218,7 +261,7 @@ void WriteInstruction::execute(MemoryState& mem) {
         mem.output << mem.registers[mem.registers[operand]] << "\n";
         break;
     default:
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
     mem.instruction_counter += 1;
 }
@@ -231,7 +274,7 @@ void JumpInstruction::execute(MemoryState& mem) {
     if (mode == Mode::LABEL) {
         mem.instruction_counter = operand;
     } else {
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
 }
 
@@ -247,7 +290,7 @@ void JGTZInstruction::execute(MemoryState& mem) {
             mem.instruction_counter += 1;
         }
     } else {
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
 }
 
@@ -263,7 +306,7 @@ void JZeroInstruction::execute(MemoryState& mem) {
             mem.instruction_counter += 1;
         }
     } else {
-        throw INVALID_MODE;
+        throw InvalidMode(to_string());
     }
 }
 
@@ -272,7 +315,7 @@ std::string JZeroInstruction::to_string() {
 }
 
 void HaltInstruction::execute(MemoryState& mem) {
-    throw EXECUTION_END;
+    throw ExecutionEnd();
 }
 
 std::string HaltInstruction::to_string() {

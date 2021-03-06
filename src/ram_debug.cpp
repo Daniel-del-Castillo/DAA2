@@ -64,7 +64,7 @@ void RAMDebug::ask_user_for_action() {
         show_help();
         break;
     case 'x':
-        throw EXECUTION_END;
+        throw ExecutionEnd();
     default:
         std::cout << "Invalid option. Use h to see the help\n";
         break;
@@ -73,7 +73,9 @@ void RAMDebug::ask_user_for_action() {
 
 void RAMDebug::execute() {
     show_help();
-    while(true) {
-        ask_user_for_action();
-    }
+    try {
+        while(true) {
+            ask_user_for_action();
+        }
+    } catch(ExecutionEnd& e) {}
 }

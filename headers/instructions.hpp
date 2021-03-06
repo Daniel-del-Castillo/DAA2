@@ -4,13 +4,47 @@
 #include <fstream>
 #include "headers/memory_state.hpp"
 
-#define INVALID_MODE std::string("This instruction has an invalid mode")
-#define INVALID_STORE std::string("The STORE instruction can't be used with an inmediate operand")
-#define INVALID_READ std::string("The READ instruction can't be used with an inmediate operand")
-#define INVALID_INPUT std::string("The READ instruction read something invalid: ")
-#define INVALID_WRITE std::string("The WRITE instruction can't be used to write the content of the accumulator")
-#define EXECUTION_END std::string("The execution finished succesfully")
-#define DIVSION_BY_0 std::string("Can't divide by zero")
+class InvalidInstruction: public std::exception {
+   protected: 
+    mutable std::string message;
+   public: 
+    InvalidInstruction(const std::string& s);
+};
+
+class InvalidMode: public InvalidInstruction {
+    using InvalidInstruction::InvalidInstruction;
+    const char* what() const noexcept;
+};
+
+class InvalidStore: public InvalidInstruction {
+    using InvalidInstruction::InvalidInstruction;
+    const char* what() const noexcept;
+};
+
+class InvalidRead: public InvalidInstruction {
+    using InvalidInstruction::InvalidInstruction;
+    const char* what() const noexcept;
+};
+
+class InvalidInput: public InvalidInstruction {
+    using InvalidInstruction::InvalidInstruction;
+    const char* what() const noexcept;
+};
+
+class InvalidWrite: public InvalidInstruction {
+    using InvalidInstruction::InvalidInstruction;
+    const char* what() const noexcept;
+};
+
+class DivisionByZero: public InvalidInstruction {
+    using InvalidInstruction::InvalidInstruction;
+    const char* what() const noexcept;
+};
+
+class ExecutionEnd: public std::exception {
+    const char* what() const noexcept;
+};
+
 #define LOAD_INSTRUCTION_ID std::string("load")
 #define STORE_INSTRUCTION_ID std::string("store")
 #define ADD_INSTRUCTION_ID std::string("add")

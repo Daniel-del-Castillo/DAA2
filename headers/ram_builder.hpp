@@ -9,15 +9,52 @@
 #include "headers/ram.hpp"
 #include "headers/ram_debug.hpp"
 
-#define INPUT_ALREADY_SET std::string("Input stream was already set")
-#define OUTPUT_ALREADY_SET std::string("Output stream was already set")
-#define INSTRUCTIONS_ALREADY_SET std::string("Instructions were already set")
-#define INPUT_NOT_SET std::string("Input stream wasn't set")
-#define OUTPUT_NOT_SET std::string("Output stream wasn't set")
-#define INSTRUCTIONS_NOT_SET std::string("Instructions weren't set")
-#define INVALID_INSTRUCTION std::string("INVALID INSTRUCTION: ")
-#define INVALID_LABEL std::string("INVALID LABEL: ")
-#define INVALID_OPERAND std::string("INVALID OPERAND: ")
+class InputAlreadySet: public std::exception {
+    const char* what() const noexcept;
+};
+
+class OutputAlreadySet: public std::exception {
+    const char* what() const noexcept;
+};
+
+class InstructionsAlreadySet: public std::exception {
+    const char* what() const noexcept;
+};
+
+class InputNotSet: public std::exception {
+    const char* what() const noexcept;
+};
+
+class OutputNotSet: public std::exception {
+    const char* what() const noexcept;
+};
+
+class InstructionsNotSet: public std::exception {
+    const char* what() const noexcept;
+};
+
+class InvalidInstructionPart: public std::exception {
+   protected: 
+    mutable std::string message;
+   public: 
+    InvalidInstructionPart(const std::string& s);
+};
+
+class InvalidOperation: public InvalidInstructionPart {
+    using InvalidInstructionPart::InvalidInstructionPart;
+    const char* what() const noexcept;
+};
+
+class InvalidLabel: public InvalidInstructionPart {
+    using InvalidInstructionPart::InvalidInstructionPart;
+    const char* what() const noexcept;
+};
+
+class InvalidOperand: public InvalidInstructionPart {
+    using InvalidInstructionPart::InvalidInstructionPart;
+    const char* what() const noexcept;
+};
+
 #define LABEL_SYMBOL ":"
 #define COMMENT_SYMBOL ";"
 

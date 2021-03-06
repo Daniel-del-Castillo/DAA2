@@ -14,9 +14,11 @@ RAM::~RAM() {
 }
 
 void RAM::execute() {
-    while(true) {
-        instructions[mem.instruction_counter]->execute(mem);
-    }
+    try {
+        while(true) {
+            instructions[mem.instruction_counter]->execute(mem);
+        }
+    } catch(ExecutionEnd& e) {}
 }
 
 instructions_vec& RAM::get_instructions() {

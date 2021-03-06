@@ -1,5 +1,48 @@
 #include "headers/ram_builder.hpp"
 
+const char* InputAlreadySet::what() const noexcept {
+    return "Input stream was already set";
+}
+
+const char* OutputAlreadySet::what() const noexcept {
+    return "Output stream was already set";
+}
+
+const char* InstructionsAlreadySet::what() const noexcept {
+    return "Instructions were already set";
+}
+
+const char* InputNotSet::what() const noexcept {
+    return "Input stream wasn't set";
+}
+
+const char* OutputNotSet::what() const noexcept {
+    return "Output stream wasn't set";
+}
+
+const char* InstructionsNotSet::what() const noexcept {
+    return "Instructions weren't set";
+}
+
+InvalidInstructionPart::InvalidInstructionPart(const std::string& s) {
+    message = s;
+}
+
+const char* InvalidOperation::what() const noexcept {
+    message =  std::string("INVALID INSTRUCTION: ") + message;
+    return message.c_str();
+}
+
+const char* InvalidLabel::what() const noexcept {
+    message = std::string("INVALID LABEL: ") + message;
+    return message.c_str();
+}
+
+const char* InvalidOperand::what() const noexcept {
+    message = std::string("INVALID OPERAND: ") + message;
+    return message.c_str();
+}
+
 RAMBuilder::RAMBuilder() {
     input_set = false;
     output_set = false;
@@ -75,7 +118,7 @@ std::pair<Mode, int> parse_operand(std::string line) {
             operand = std::stoi(line.substr(1));
         }
     } catch (std::exception& e) {
-        throw INVALID_OPERAND + line;
+        throw InvalidOperand(line);
     }
     return {mode, operand};
 }
@@ -83,7 +126,7 @@ std::pair<Mode, int> parse_operand(std::string line) {
 int parse_label(std::string label, labels& labels) {
     auto key_value_iter = labels.find(label);
     if (key_value_iter == labels.end()) {
-        throw INVALID_LABEL + label;
+        throw InvalidLabel(label);
     }
     return std::get<int>(*key_value_iter);
 }
@@ -127,7 +170,7 @@ Instruction* parse_instruction(std::string line, labels& labels) {
     } else if (line.find(HALT_INSTRUCTION_ID) == 0) {
         return new HaltInstruction(0, Mode::HALT);
     } else {
-        throw INVALID_INSTRUCTION + line;
+        throw InvalidOperation(line);
     }
 }
 
@@ -149,11 +192,11 @@ instructions_vec get_instructions_from_file(std::fstream& input) {
 
 RAM* RAMBuilder::build() {
     if (!input_set) {
-        throw INPUT_NOT_SET;
+        throw InputNotSet();
     } else if (!output_set) {
-        throw OUTPUT_NOT_SET;
+        throw OutputNotSet();
     } else if (!instructions_set) {
-        throw INSTRUCTIONS_NOT_SET;
+        throw InstructionsNotSet();
     }
     input_set = false;
     output_set = false;
@@ -165,11 +208,11 @@ RAM* RAMBuilder::build() {
 
 RAMDebug* RAMBuilder::build_debug() {
     if (!input_set) {
-        throw INPUT_NOT_SET;
+        throw InputNotSet();
     } else if (!output_set) {
-        throw OUTPUT_NOT_SET;
+        throw OutputNotSet();
     } else if (!instructions_set) {
-        throw INSTRUCTIONS_NOT_SET;
+        throw InstructionsNotSet();
     }
     input_set = false;
     output_set = false;
@@ -181,7 +224,7 @@ RAMDebug* RAMBuilder::build_debug() {
 
 void RAMBuilder::read_instructions_from(std::fstream& input) {
     if (instructions_set) {
-        throw INSTRUCTIONS_ALREADY_SET;
+        throw InstructionsAlreadySet();
     }
     instructions = get_instructions_from_file(input);
     instructions_set = true;
@@ -189,7 +232,7 @@ void RAMBuilder::read_instructions_from(std::fstream& input) {
 
 void RAMBuilder::set_input_stream(std::fstream& input) {
     if (input_set) {
-        throw INPUT_ALREADY_SET;
+        throw InputAlreadySet();
     } else {
         this->input.swap(input); 
         input_set = true;
@@ -198,7 +241,7 @@ void RAMBuilder::set_input_stream(std::fstream& input) {
 
 void RAMBuilder::set_output_stream(std::fstream& output) {
     if (output_set) {
-        throw OUTPUT_ALREADY_SET;
+        throw OutputAlreadySet();
     } else {
         this->output.swap(output); 
         output_set = true;
