@@ -1,9 +1,8 @@
 #include "headers/ram_debug.hpp"
 
 void RAMDebug::execute() {
-    for(Instruction* instruction: instructions) {
-        instruction->execute(mem);
-        std::cout << instruction->to_string() << "\n";
+    while(true) {
+        instructions[mem.instruction_counter]->execute(mem);
+        std::cout << instructions[mem.instruction_counter]->to_string() << "\n";
     }
-    
 }

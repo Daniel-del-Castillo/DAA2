@@ -14,8 +14,8 @@ RAM::~RAM() {
 }
 
 void RAM::execute() {
-    for(Instruction* instruction: instructions) {
-        instruction->execute(mem);
+    while(true) {
+        instructions[mem.instruction_counter]->execute(mem);
     }
 }
 
