@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
 #include "headers/instructions.hpp"
 #include "headers/memory_state.hpp"
 
@@ -15,5 +16,6 @@ class RAM {
     ~RAM();
     
     void execute();
+    void execute_debug();
     instructions_vec& get_instructions();
 };

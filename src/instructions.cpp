@@ -8,10 +8,10 @@ Instruction::Instruction(int operand, Mode mode) {
 std::string mode_to_string(Mode mode) {
     switch (mode) {
     case Mode::INMEDIATE:
-        return "=";
+        return INMEDIATE_MODE_SYMBOL;
         break;
     case Mode::INDIRECT:
-        return "*";
+        return INDIRECT_MODE_SYMBOL;
         break;
     } 
     return "";
@@ -35,7 +35,7 @@ void LoadInstruction::execute(MemoryState& mem) {
 }
 
 std::string LoadInstruction::to_string() {
-    return std::string("LOAD ") + mode_to_string(mode) + std::to_string(operand); 
+    return LOAD_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 void StoreInstruction::execute(MemoryState& mem) {
@@ -56,7 +56,7 @@ void StoreInstruction::execute(MemoryState& mem) {
 }
 
 std::string StoreInstruction::to_string() {
-    return std::string("STORE ") + mode_to_string(mode) + std::to_string(operand); 
+    return STORE_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 void AddInstruction::execute(MemoryState& mem) {
@@ -77,7 +77,7 @@ void AddInstruction::execute(MemoryState& mem) {
 }
 
 std::string AddInstruction::to_string() {
-    return std::string("ADD ") + mode_to_string(mode) + std::to_string(operand); 
+    return ADD_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 void SubInstruction::execute(MemoryState& mem) {
@@ -98,7 +98,7 @@ void SubInstruction::execute(MemoryState& mem) {
 }
 
 std::string SubInstruction::to_string() {
-    return std::string("SUB ") + mode_to_string(mode) + std::to_string(operand); 
+    return SUB_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 void MultInstruction::execute(MemoryState& mem) {
@@ -119,18 +119,27 @@ void MultInstruction::execute(MemoryState& mem) {
 }
 
 std::string MultInstruction::to_string() {
-    return std::string("MULT ") + mode_to_string(mode) + std::to_string(operand); 
+    return MULT_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 void DivInstruction::execute(MemoryState& mem) {
     switch (mode) {
     case Mode::INMEDIATE:
+        if (operand == 0) {
+            throw DIVSION_BY_0;
+        }
         mem.registers[ACCUMULATOR_REG] /= operand;
         break;
     case Mode::DIRECT:
+        if (mem.registers[operand] == 0) {
+            throw DIVSION_BY_0;
+        }
         mem.registers[ACCUMULATOR_REG] /= mem.registers[operand];
         break;
     case Mode::INDIRECT:
+        if (mem.registers[mem.registers[operand]] == 0) {
+            throw DIVSION_BY_0;
+        }
         mem.registers[ACCUMULATOR_REG] /= mem.registers[mem.registers[operand]];
         break;
     default:
@@ -140,7 +149,7 @@ void DivInstruction::execute(MemoryState& mem) {
 }
 
 std::string DivInstruction::to_string() {
-    return std::string("DIV ") + mode_to_string(mode) + std::to_string(operand); 
+    return DIV_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 int read_number(std::fstream& input) {
@@ -173,7 +182,7 @@ void ReadInstruction::execute(MemoryState& mem) {
 }
 
 std::string ReadInstruction::to_string() {
-    return std::string("READ ") + mode_to_string(mode) + std::to_string(operand); 
+    return READ_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 void WriteInstruction::execute(MemoryState& mem) {
@@ -197,7 +206,7 @@ void WriteInstruction::execute(MemoryState& mem) {
 }
 
 std::string WriteInstruction::to_string() {
-    return std::string("WRITE ") + mode_to_string(mode) + std::to_string(operand); 
+    return WRITE_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
 void JumpInstruction::execute(MemoryState& mem) {
@@ -210,7 +219,7 @@ void JumpInstruction::execute(MemoryState& mem) {
 }
 
 std::string JumpInstruction::to_string() {
-    return std::string("JUMP ") + std::to_string(operand); 
+    return JUMP_INSTRUCTION_ID + std::string(" ") + std::to_string(operand); 
 }
 
 void JGTZInstruction::execute(MemoryState& mem) {
@@ -227,7 +236,7 @@ void JGTZInstruction::execute(MemoryState& mem) {
 }
 
 std::string JGTZInstruction::to_string() {
-    return std::string("JGTZ ") + std::to_string(operand); 
+    return JGTZ_INSTRUCTION_ID + std::string(" ") + std::to_string(operand); 
 }
 
 void JZeroInstruction::execute(MemoryState& mem) {
@@ -244,7 +253,7 @@ void JZeroInstruction::execute(MemoryState& mem) {
 }
 
 std::string JZeroInstruction::to_string() {
-    return std::string("JZERO ") + std::to_string(operand); 
+    return JZERO_INSTRUCTION_ID + std::string(" ") + std::to_string(operand); 
 }
 
 void HaltInstruction::execute(MemoryState& mem) {
@@ -252,5 +261,5 @@ void HaltInstruction::execute(MemoryState& mem) {
 }
 
 std::string HaltInstruction::to_string() {
-    return std::string("HALT");
+    return HALT_INSTRUCTION_ID;
 }

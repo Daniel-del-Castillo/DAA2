@@ -19,6 +19,13 @@ void RAM::execute() {
     }
 }
 
+void RAM::execute_debug() {
+    for(Instruction* instruction: instructions) {
+        instruction->execute(mem);
+    }
+    
+}
+
 instructions_vec& RAM::get_instructions() {
     return instructions;
 }

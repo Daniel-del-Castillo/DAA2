@@ -9,7 +9,7 @@ RAMBuilder::RAMBuilder() {
 labels get_labels(lines_vec& lines) {
     std::unordered_map<std::string, int> labels;
     for(int i = 0; i < lines.size(); i++) {
-        int index = lines[i].find(":");
+        int index = lines[i].find(LABEL_SYMBOL);
         if (index == std::string::npos) {
             continue;
         }
@@ -28,7 +28,7 @@ void remove_spaces(std::string& string) {
 }
 
 void remove_comments(std::string& string) {
-    int index = string.find(";");
+    int index = string.find(COMMENT_SYMBOL);
     if (index != std::string::npos) {
         string.erase(index);
     }
@@ -60,9 +60,9 @@ lines_vec get_unparsed_instructions(std::fstream& input) {
 
 std::pair<Mode, int> parse_operand(std::string line) {
     Mode mode;
-    if (line[0] == '=') {
+    if (line.find(INMEDIATE_MODE_SYMBOL) == 0) {
         mode = Mode::INMEDIATE;
-    } else if (line[0] == '*') {
+    } else if (line.find(INDIRECT_MODE_SYMBOL) == 0) {
         mode = Mode::INDIRECT;
     } else {
         mode = Mode::DIRECT;

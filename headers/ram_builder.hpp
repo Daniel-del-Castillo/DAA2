@@ -17,18 +17,8 @@
 #define INVALID_INSTRUCTION std::string("INVALID INSTRUCTION: ")
 #define INVALID_LABEL std::string("INVALID LABEL: ")
 #define INVALID_OPERAND std::string("INVALID OPERAND: ")
-#define LOAD_INSTRUCTION_ID std::string("load")
-#define STORE_INSTRUCTION_ID std::string("store")
-#define ADD_INSTRUCTION_ID std::string("add")
-#define SUB_INSTRUCTION_ID std::string("sub")
-#define MULT_INSTRUCTION_ID std::string("mult")
-#define DIV_INSTRUCTION_ID std::string("div")
-#define READ_INSTRUCTION_ID std::string("read")
-#define WRITE_INSTRUCTION_ID std::string("write")
-#define JUMP_INSTRUCTION_ID std::string("jump")
-#define JGTZ_INSTRUCTION_ID std::string("jgtz")
-#define JZERO_INSTRUCTION_ID std::string("jzero")
-#define HALT_INSTRUCTION_ID std::string("halt")
+#define LABEL_SYMBOL ":"
+#define COMMENT_SYMBOL ";"
 
 using lines_vec = std::vector<std::string>;
 using labels = std::unordered_map<std::string, int>;

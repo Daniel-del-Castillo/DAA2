@@ -2,12 +2,12 @@
 
 #include <fstream>
 #include <unordered_map>
+#include "headers/dynamic_vec.hpp"
 
-using Registers = std::unordered_map<int, int>;
 
 struct MemoryState {
     unsigned instruction_counter;
-    Registers registers;
+    DynamicVec<int> registers;
     std::fstream output;
     std::fstream input;
 };

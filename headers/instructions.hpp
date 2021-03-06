@@ -10,6 +10,21 @@
 #define INVALID_INPUT std::string("The READ instruction read something invalid: ")
 #define INVALID_WRITE std::string("The WRITE instruction can't be used to write the content of the accumulator")
 #define EXECUTION_END std::string("The execution finished succesfully")
+#define DIVSION_BY_0 std::string("Can't divide by zero")
+#define LOAD_INSTRUCTION_ID std::string("load")
+#define STORE_INSTRUCTION_ID std::string("store")
+#define ADD_INSTRUCTION_ID std::string("add")
+#define SUB_INSTRUCTION_ID std::string("sub")
+#define MULT_INSTRUCTION_ID std::string("mult")
+#define DIV_INSTRUCTION_ID std::string("div")
+#define READ_INSTRUCTION_ID std::string("read")
+#define WRITE_INSTRUCTION_ID std::string("write")
+#define JUMP_INSTRUCTION_ID std::string("jump")
+#define JGTZ_INSTRUCTION_ID std::string("jgtz")
+#define JZERO_INSTRUCTION_ID std::string("jzero")
+#define HALT_INSTRUCTION_ID std::string("halt")
+#define INMEDIATE_MODE_SYMBOL "="
+#define INDIRECT_MODE_SYMBOL "*"
 #define ACCUMULATOR_REG 0
 
 enum Mode {
@@ -28,6 +43,7 @@ class Instruction {
     Mode mode;
    public:
     Instruction(int operand, Mode mode);
+    virtual ~Instruction() = default;
     virtual void execute(MemoryState& mem) = 0;
     virtual std::string to_string() = 0;
 };
