@@ -163,6 +163,22 @@ RAM* RAMBuilder::build() {
     return ram;
 }
 
+RAMDebug* RAMBuilder::build_debug() {
+    if (!input_set) {
+        throw INPUT_NOT_SET;
+    } else if (!output_set) {
+        throw OUTPUT_NOT_SET;
+    } else if (!instructions_set) {
+        throw INSTRUCTIONS_NOT_SET;
+    }
+    input_set = false;
+    output_set = false;
+    RAMDebug* ram = new RAMDebug(instructions, input, output);
+    instructions_set = false;
+    instructions = instructions_vec();
+    return ram;
+}
+
 void RAMBuilder::read_instructions_from(std::fstream& input) {
     if (instructions_set) {
         throw INSTRUCTIONS_ALREADY_SET;

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <utility>
 #include "headers/ram.hpp"
+#include "headers/ram_debug.hpp"
 
 #define INPUT_ALREADY_SET std::string("Input stream was already set")
 #define OUTPUT_ALREADY_SET std::string("Output stream was already set")
@@ -34,6 +35,7 @@ class RAMBuilder {
    public:
     RAMBuilder();
     RAM* build();
+    RAMDebug* build_debug();
     void read_instructions_from(std::fstream& input); 
     void set_input_stream(std::fstream& input);
     void set_output_stream(std::fstream& input);
