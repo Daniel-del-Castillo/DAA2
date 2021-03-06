@@ -215,7 +215,6 @@ void JumpInstruction::execute(MemoryState& mem) {
     } else {
         throw INVALID_MODE;
     }
-    mem.instruction_counter += 1;
 }
 
 std::string JumpInstruction::to_string() {
@@ -232,7 +231,6 @@ void JGTZInstruction::execute(MemoryState& mem) {
     } else {
         throw INVALID_MODE;
     }
-    mem.instruction_counter += 1;
 }
 
 std::string JGTZInstruction::to_string() {
@@ -249,7 +247,6 @@ void JZeroInstruction::execute(MemoryState& mem) {
     } else {
         throw INVALID_MODE;
     }
-    mem.instruction_counter += 1;
 }
 
 std::string JZeroInstruction::to_string() {
