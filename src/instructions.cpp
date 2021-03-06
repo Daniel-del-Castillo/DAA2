@@ -18,15 +18,18 @@ std::string mode_to_string(Mode mode) {
 }
 
 void LoadInstruction::execute(MemoryState& mem) {
+    int value;
     switch (mode) {
     case Mode::INMEDIATE:
         mem.registers[ACCUMULATOR_REG] = operand;
         break;
     case Mode::DIRECT:
-        mem.registers[ACCUMULATOR_REG] = mem.registers[operand];
+        value = mem.registers[operand];
+        mem.registers[ACCUMULATOR_REG] = value;
         break;
     case Mode::INDIRECT:
-        mem.registers[ACCUMULATOR_REG] = mem.registers[mem.registers[operand]];
+        value = mem.registers[mem.registers[operand]];
+        mem.registers[ACCUMULATOR_REG] = value;
         break;
     default:
         throw INVALID_MODE;
@@ -39,15 +42,18 @@ std::string LoadInstruction::to_string() {
 }
 
 void StoreInstruction::execute(MemoryState& mem) {
+    int value;
     switch (mode) {
     case Mode::INMEDIATE:
         throw INVALID_STORE;
         break;
     case Mode::DIRECT:
-        mem.registers[operand] = mem.registers[ACCUMULATOR_REG];
+        value = mem.registers[ACCUMULATOR_REG];
+        mem.registers[operand] = value;
         break;
     case Mode::INDIRECT:
-        mem.registers[mem.registers[operand]] = mem.registers[ACCUMULATOR_REG];
+        value = mem.registers[ACCUMULATOR_REG];
+        mem.registers[mem.registers[operand]] = value;
         break;
     default:
         throw INVALID_MODE;
@@ -60,15 +66,18 @@ std::string StoreInstruction::to_string() {
 }
 
 void AddInstruction::execute(MemoryState& mem) {
+    int value;
     switch (mode) {
     case Mode::INMEDIATE:
         mem.registers[ACCUMULATOR_REG] += operand;
         break;
     case Mode::DIRECT:
-        mem.registers[ACCUMULATOR_REG] += mem.registers[operand];
+        value = mem.registers[operand];
+        mem.registers[ACCUMULATOR_REG] += value;
         break;
     case Mode::INDIRECT:
-        mem.registers[ACCUMULATOR_REG] += mem.registers[mem.registers[operand]];
+        value = mem.registers[mem.registers[operand]];
+        mem.registers[ACCUMULATOR_REG] += value;
         break;
     default:
         throw INVALID_MODE;
@@ -81,15 +90,18 @@ std::string AddInstruction::to_string() {
 }
 
 void SubInstruction::execute(MemoryState& mem) {
+    int value;
     switch (mode) {
     case Mode::INMEDIATE:
         mem.registers[ACCUMULATOR_REG] -= operand;
         break;
     case Mode::DIRECT:
-        mem.registers[ACCUMULATOR_REG] -= mem.registers[operand];
+        value = mem.registers[operand];
+        mem.registers[ACCUMULATOR_REG] -= value;
         break;
     case Mode::INDIRECT:
-        mem.registers[ACCUMULATOR_REG] -= mem.registers[mem.registers[operand]];
+        value = mem.registers[mem.registers[operand]];
+        mem.registers[ACCUMULATOR_REG] -= value;
         break;
     default:
         throw INVALID_MODE;
@@ -102,15 +114,18 @@ std::string SubInstruction::to_string() {
 }
 
 void MultInstruction::execute(MemoryState& mem) {
+    int value;
     switch (mode) {
     case Mode::INMEDIATE:
         mem.registers[ACCUMULATOR_REG] *= operand;
         break;
     case Mode::DIRECT:
-        mem.registers[ACCUMULATOR_REG] *= mem.registers[operand];
+        value = mem.registers[operand];
+        mem.registers[ACCUMULATOR_REG] *= value;
         break;
     case Mode::INDIRECT:
-        mem.registers[ACCUMULATOR_REG] *= mem.registers[mem.registers[operand]];
+        value = mem.registers[mem.registers[operand]];
+        mem.registers[ACCUMULATOR_REG] *= value;
         break;
     default:
         throw INVALID_MODE;
@@ -123,6 +138,7 @@ std::string MultInstruction::to_string() {
 }
 
 void DivInstruction::execute(MemoryState& mem) {
+    int value;
     switch (mode) {
     case Mode::INMEDIATE:
         if (operand == 0) {
@@ -134,13 +150,15 @@ void DivInstruction::execute(MemoryState& mem) {
         if (mem.registers[operand] == 0) {
             throw DIVSION_BY_0;
         }
-        mem.registers[ACCUMULATOR_REG] /= mem.registers[operand];
+        value = mem.registers[operand];
+        mem.registers[ACCUMULATOR_REG] /= value;
         break;
     case Mode::INDIRECT:
         if (mem.registers[mem.registers[operand]] == 0) {
             throw DIVSION_BY_0;
         }
-        mem.registers[ACCUMULATOR_REG] /= mem.registers[mem.registers[operand]];
+        value = mem.registers[mem.registers[operand]];
+        mem.registers[ACCUMULATOR_REG] /= value;
         break;
     default:
         throw INVALID_MODE;
