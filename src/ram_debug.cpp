@@ -6,6 +6,12 @@ void RAMDebug::show_registers() {
     }
 }
 
+void RAMDebug::show_instructions() {
+    for (int i = 0; i < instructions.size(); i++) {
+       std::cout << i << " " << instructions[i]->to_string() << "\n"; 
+    }
+}
+
 void show_help() {
     std::cout << "r: see the registers\n";
     std::cout << "t: trace\n";
@@ -30,6 +36,8 @@ void show_file_content(std::fstream& stream) {
 
 void RAMDebug::ask_user_for_action() {
     std::string input;
+    std::cout << "Instruction: ";
+    std::cout << instructions[mem.instruction_counter]->to_string() << "\n";
     std::cout << "Instruction counter: " << mem.instruction_counter << "\n";
     std::cout << ">";
     std::getline(std::cin, input);
@@ -44,7 +52,7 @@ void RAMDebug::ask_user_for_action() {
         RAM::execute();
         break;
     case 's':
-        std::cout << instructions[mem.instruction_counter]->to_string() << "\n";
+        show_instructions();
         break;
     case 'i':
         show_file_content(mem.input);
