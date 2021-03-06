@@ -17,6 +17,17 @@ void show_help() {
     std::cout << "x: exit\n";
 }
 
+void show_file_content(std::fstream& stream) {
+    unsigned start_pos = stream.tellg();
+    stream.seekg(0, std::ios::beg);
+    std::string line;
+    while(std::getline(stream, line)) {
+        std::cout << line << "\n";
+    }
+    stream.clear();
+    stream.seekg(start_pos, std::ios::beg);
+}
+
 void RAMDebug::ask_user_for_action() {
     std::string input;
     std::cout << "Instruction counter: " << mem.instruction_counter << "\n";
@@ -34,6 +45,12 @@ void RAMDebug::ask_user_for_action() {
         break;
     case 's':
         std::cout << instructions[mem.instruction_counter]->to_string() << "\n";
+        break;
+    case 'i':
+        show_file_content(mem.input);
+        break;
+    case 'o':
+        show_file_content(mem.output);
         break;
     case 'h':
         show_help();

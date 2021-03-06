@@ -1,6 +1,6 @@
 #pragma once
 
-#define INITIAL_SIZE 5
+#define INITIAL_SIZE 10
 
 template<class T>
 class DynamicVec {
@@ -11,7 +11,7 @@ class DynamicVec {
     DynamicVec();
     ~DynamicVec(); 
     T& operator[](unsigned index);
-    unsigned size();
+    unsigned size() const;
 };
 
 template<class T>
@@ -28,18 +28,19 @@ DynamicVec<T>::~DynamicVec() {
 template<class T>
 T& DynamicVec<T>::operator[](unsigned index) {
     if (index >= content_size) {
-        T* new_content = new T[index + 1];
+        unsigned new_size = index + 1;
+        T* new_content = new T[new_size];
         for (unsigned i = 0; i < content_size; i++) {
             new_content[i] = content[i];
         }
         delete content;
         content = new_content;
-        content_size = index + 1;
+        content_size = new_size;
     }
     return content[index];
 }
 
 template<class T>
-unsigned DynamicVec<T>::size() {
+unsigned DynamicVec<T>::size() const {
     return content_size;
 }

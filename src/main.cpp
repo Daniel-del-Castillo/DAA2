@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     }
     std::fstream instructions_file(argv[1], std::ios::in);
     std::fstream input_file(argv[2], std::ios::in);
-    std::fstream output_file(argv[3], std::ios::out | std::ios::trunc);
+    std::fstream output_file(argv[3], std::ios::out | std::ios::trunc | std::ios::in);
     RAMBuilder builder;
     try {
         builder.read_instructions_from(instructions_file);
