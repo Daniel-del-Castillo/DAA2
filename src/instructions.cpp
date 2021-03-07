@@ -284,7 +284,7 @@ std::string JumpInstruction::to_string() const {
 
 void JGTZInstruction::execute(MemoryState& mem) const {
     if (mode == Mode::LABEL) {
-        if (mem.registers[ACCUMULATOR_REG] >= 0) {
+        if (mem.registers[ACCUMULATOR_REG] > 0) {
             mem.instruction_counter = operand;
         } else {
             mem.instruction_counter += 1;
