@@ -71,11 +71,14 @@ void RAMDebug::ask_user_for_action() {
     }
 }
 
-void RAMDebug::execute() {
+int RAMDebug::execute() {
+    int instructions_executed = 0;
     show_help();
     try {
         while(true) {
             ask_user_for_action();
+            instructions_executed++;
         }
     } catch(ExecutionEnd& e) {}
+    return instructions_executed;
 }

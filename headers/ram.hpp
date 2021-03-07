@@ -15,6 +15,6 @@ class RAM {
     RAM(const instructions_vec& instructions, std::fstream& input, std::fstream& output); 
     virtual ~RAM();
     
-    virtual void execute();
+    virtual int execute();
     const instructions_vec& get_instructions() const;
 };

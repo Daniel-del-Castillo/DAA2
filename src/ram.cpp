@@ -13,12 +13,15 @@ RAM::~RAM() {
     }
 }
 
-void RAM::execute() {
+int RAM::execute() {
+    int instructions_executed = 0;
     try {
         while(true) {
             instructions[mem.instruction_counter]->execute(mem);
+            instructions_executed++;
         }
     } catch(ExecutionEnd& e) {}
+        return instructions_executed;
 }
 
 const instructions_vec& RAM::get_instructions() const {

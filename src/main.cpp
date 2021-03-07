@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     try {
         builder.read_instructions_from(instructions_file);
     } catch(std::exception& e) {
-        std::cout << "An error ocurred while reading the instructions: " << e.what() << std::endl;
+        std::cout << "An error ocurred while reading the instructions: " << e.what() << "\n";
         return 2;
     }
     builder.set_input_stream(input_file);
@@ -38,10 +38,10 @@ int main(int argc, char** argv) {
         ram = builder.build();
     }
     try {
-        ram->execute();
-        std::cout << "Execution finished succesfully" << std::endl;
+        int instructions_executed = ram->execute();
+        std::cout << "Execution finished succesfully after " << instructions_executed <<  " instructions\n";
     } catch(std::exception& e) {
-        std::cout << "An error ocurred during the execution: " << e.what() << std::endl;
+        std::cout << "An error ocurred during the execution: " << e.what() << "\n";
     }
 
     delete ram;
