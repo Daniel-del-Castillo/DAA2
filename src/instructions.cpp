@@ -60,7 +60,7 @@ std::string mode_to_string(Mode mode) {
     return "";
 }
 
-void LoadInstruction::execute(MemoryState& mem) {
+void LoadInstruction::execute(MemoryState& mem) const {
     int value;
     switch (mode) {
     case Mode::INMEDIATE:
@@ -80,11 +80,11 @@ void LoadInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string LoadInstruction::to_string() {
+std::string LoadInstruction::to_string() const {
     return LOAD_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
-void StoreInstruction::execute(MemoryState& mem) {
+void StoreInstruction::execute(MemoryState& mem) const {
     int value;
     switch (mode) {
     case Mode::INMEDIATE:
@@ -104,11 +104,11 @@ void StoreInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string StoreInstruction::to_string() {
+std::string StoreInstruction::to_string() const {
     return STORE_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
-void AddInstruction::execute(MemoryState& mem) {
+void AddInstruction::execute(MemoryState& mem) const {
     int value;
     switch (mode) {
     case Mode::INMEDIATE:
@@ -128,11 +128,11 @@ void AddInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string AddInstruction::to_string() {
+std::string AddInstruction::to_string() const {
     return ADD_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
-void SubInstruction::execute(MemoryState& mem) {
+void SubInstruction::execute(MemoryState& mem) const {
     int value;
     switch (mode) {
     case Mode::INMEDIATE:
@@ -152,11 +152,11 @@ void SubInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string SubInstruction::to_string() {
+std::string SubInstruction::to_string() const {
     return SUB_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
-void MultInstruction::execute(MemoryState& mem) {
+void MultInstruction::execute(MemoryState& mem) const {
     int value;
     switch (mode) {
     case Mode::INMEDIATE:
@@ -176,11 +176,11 @@ void MultInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string MultInstruction::to_string() {
+std::string MultInstruction::to_string() const {
     return MULT_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
-void DivInstruction::execute(MemoryState& mem) {
+void DivInstruction::execute(MemoryState& mem) const {
     int value;
     switch (mode) {
     case Mode::INMEDIATE:
@@ -209,7 +209,7 @@ void DivInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string DivInstruction::to_string() {
+std::string DivInstruction::to_string() const {
     return DIV_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
@@ -225,7 +225,7 @@ int read_number(std::fstream& input) {
     return number;
 }
 
-void ReadInstruction::execute(MemoryState& mem) {
+void ReadInstruction::execute(MemoryState& mem) const {
     switch (mode) {
     case Mode::INMEDIATE:
         throw InvalidRead(to_string());
@@ -242,11 +242,11 @@ void ReadInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string ReadInstruction::to_string() {
+std::string ReadInstruction::to_string() const {
     return READ_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
-void WriteInstruction::execute(MemoryState& mem) {
+void WriteInstruction::execute(MemoryState& mem) const {
     switch (mode) {
     case Mode::INMEDIATE:
         mem.output << operand << "\n";
@@ -266,11 +266,11 @@ void WriteInstruction::execute(MemoryState& mem) {
     mem.instruction_counter += 1;
 }
 
-std::string WriteInstruction::to_string() {
+std::string WriteInstruction::to_string() const {
     return WRITE_INSTRUCTION_ID + std::string(" ") + mode_to_string(mode) + std::to_string(operand); 
 }
 
-void JumpInstruction::execute(MemoryState& mem) {
+void JumpInstruction::execute(MemoryState& mem) const {
     if (mode == Mode::LABEL) {
         mem.instruction_counter = operand;
     } else {
@@ -278,11 +278,11 @@ void JumpInstruction::execute(MemoryState& mem) {
     }
 }
 
-std::string JumpInstruction::to_string() {
+std::string JumpInstruction::to_string() const {
     return JUMP_INSTRUCTION_ID + std::string(" ") + std::to_string(operand); 
 }
 
-void JGTZInstruction::execute(MemoryState& mem) {
+void JGTZInstruction::execute(MemoryState& mem) const {
     if (mode == Mode::LABEL) {
         if (mem.registers[ACCUMULATOR_REG] >= 0) {
             mem.instruction_counter = operand;
@@ -294,11 +294,11 @@ void JGTZInstruction::execute(MemoryState& mem) {
     }
 }
 
-std::string JGTZInstruction::to_string() {
+std::string JGTZInstruction::to_string() const {
     return JGTZ_INSTRUCTION_ID + std::string(" ") + std::to_string(operand); 
 }
 
-void JZeroInstruction::execute(MemoryState& mem) {
+void JZeroInstruction::execute(MemoryState& mem) const {
     if (mode == Mode::LABEL) {
         if (mem.registers[ACCUMULATOR_REG] == 0) {
             mem.instruction_counter = operand;
@@ -310,14 +310,14 @@ void JZeroInstruction::execute(MemoryState& mem) {
     }
 }
 
-std::string JZeroInstruction::to_string() {
+std::string JZeroInstruction::to_string() const {
     return JZERO_INSTRUCTION_ID + std::string(" ") + std::to_string(operand); 
 }
 
-void HaltInstruction::execute(MemoryState& mem) {
+void HaltInstruction::execute(MemoryState& mem) const {
     throw ExecutionEnd();
 }
 
-std::string HaltInstruction::to_string() {
+std::string HaltInstruction::to_string() const {
     return HALT_INSTRUCTION_ID;
 }

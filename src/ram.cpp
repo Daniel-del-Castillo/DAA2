@@ -1,6 +1,6 @@
 #include "headers/ram.hpp"
 
-RAM::RAM(instructions_vec& instructions, std::fstream& input, std::fstream& output) {
+RAM::RAM(const instructions_vec& instructions, std::fstream& input, std::fstream& output) {
     this->instructions = instructions;
     mem.input.swap(input);
     mem.output.swap(output);
@@ -21,6 +21,6 @@ void RAM::execute() {
     } catch(ExecutionEnd& e) {}
 }
 
-instructions_vec& RAM::get_instructions() {
+const instructions_vec& RAM::get_instructions() const {
     return instructions;
 }

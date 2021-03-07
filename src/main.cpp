@@ -2,11 +2,17 @@
 #include "headers/ram.hpp"
 #include "headers/ram_builder.hpp"
 
+#define DEBUG_OPTION "debug"
+
+void show_usage() {
+    std::cout << "Usage:\n";
+    std::cout << "./ram_sim ram_program.ram input_tape.in output_tape.out [debug]\n";
+    std::cout << "Debug is optional and activates debug mode\n";
+}
+
 int main(int argc, char** argv) {
     if (std::string(argv[1]) == "-h") {
-        std::cout << "Usage:\n";
-        std::cout << "./ram_sim ram_program.ram input_tape.in output_tape.out [debug]\n";
-        std::cout << "Debug is optional and activates debug mode\n";
+        show_usage();
         return 0;
     }
     if (argc < 4) {
@@ -21,11 +27,12 @@ int main(int argc, char** argv) {
         builder.read_instructions_from(instructions_file);
     } catch(std::exception& e) {
         std::cout << "An error ocurred while reading the instructions: " << e.what() << std::endl;
+        return 2;
     }
     builder.set_input_stream(input_file);
     builder.set_output_stream(output_file);
     RAM* ram;
-    if (argc > 4 && std::string(argv[4]) == "debug") {
+    if (argc > 4 && std::string(argv[4]) == DEBUG_OPTION) {
         ram = builder.build_debug();
     } else {
         ram = builder.build();

@@ -78,90 +78,90 @@ class Instruction {
    public:
     Instruction(int operand, Mode mode);
     virtual ~Instruction() = default;
-    virtual void execute(MemoryState& mem) = 0;
-    virtual std::string to_string() = 0;
+    virtual void execute(MemoryState& mem) const = 0;
+    virtual std::string to_string() const = 0;
 };
 
 class LoadInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class StoreInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class AddInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class SubInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class MultInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class DivInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class ReadInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class WriteInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class JumpInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class JGTZInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class JZeroInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };
 
 class HaltInstruction : public Instruction {
    public: 
     using Instruction::Instruction;
-    void execute(MemoryState& mem);
-    std::string to_string();
+    void execute(MemoryState& mem) const;
+    std::string to_string() const;
 };

@@ -12,9 +12,9 @@ class RAM {
     MemoryState mem;
     
    public:
-    RAM(instructions_vec& instructions, std::fstream& input, std::fstream& output); 
+    RAM(const instructions_vec& instructions, std::fstream& input, std::fstream& output); 
     virtual ~RAM();
     
     virtual void execute();
-    instructions_vec& get_instructions();
+    const instructions_vec& get_instructions() const;
 };

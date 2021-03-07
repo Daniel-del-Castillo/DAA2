@@ -6,7 +6,7 @@ void RAMDebug::show_registers() {
     }
 }
 
-void RAMDebug::show_instructions() {
+void RAMDebug::show_instructions() const {
     for (int i = 0; i < instructions.size(); i++) {
        std::cout << i << " " << instructions[i]->to_string() << "\n"; 
     }
