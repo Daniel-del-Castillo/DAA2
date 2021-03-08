@@ -49,6 +49,9 @@ T& DynamicVec<T>::operator[](unsigned index) {
         for (unsigned i = 0; i < content_size; i++) {
             new_content[i] = content[i];
         }
+        for (unsigned i = content_size; i < new_size; i++) {
+            new_content[i] = 0;
+        }
         delete content;
         content = new_content;
         content_size = new_size;

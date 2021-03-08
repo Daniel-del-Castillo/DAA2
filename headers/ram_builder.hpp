@@ -10,26 +10,32 @@
 #include "headers/ram_debug.hpp"
 
 class InputAlreadySet: public std::exception {
+   public: 
     const char* what() const noexcept;
 };
 
 class OutputAlreadySet: public std::exception {
+   public: 
     const char* what() const noexcept;
 };
 
 class InstructionsAlreadySet: public std::exception {
+   public: 
     const char* what() const noexcept;
 };
 
 class InputNotSet: public std::exception {
+   public: 
     const char* what() const noexcept;
 };
 
 class OutputNotSet: public std::exception {
+   public: 
     const char* what() const noexcept;
 };
 
 class InstructionsNotSet: public std::exception {
+   public: 
     const char* what() const noexcept;
 };
 
@@ -42,16 +48,19 @@ class InvalidInstructionPart: public std::exception {
 
 class InvalidOperation: public InvalidInstructionPart {
     using InvalidInstructionPart::InvalidInstructionPart;
+   public: 
     const char* what() const noexcept;
 };
 
 class InvalidLabel: public InvalidInstructionPart {
     using InvalidInstructionPart::InvalidInstructionPart;
+   public: 
     const char* what() const noexcept;
 };
 
 class InvalidOperand: public InvalidInstructionPart {
     using InvalidInstructionPart::InvalidInstructionPart;
+   public: 
     const char* what() const noexcept;
 };
 

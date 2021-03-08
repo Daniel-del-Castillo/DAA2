@@ -8,6 +8,7 @@ using instructions_vec = std::vector<Instruction*>;
 
 class RAM {
    protected:
+    int instructions_executed;
     instructions_vec instructions;
     MemoryState mem;
     

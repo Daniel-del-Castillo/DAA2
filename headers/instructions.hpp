@@ -13,35 +13,42 @@ class InvalidInstruction: public std::exception {
 
 class InvalidMode: public InvalidInstruction {
     using InvalidInstruction::InvalidInstruction;
+   public: 
     const char* what() const noexcept;
 };
 
 class InvalidStore: public InvalidInstruction {
     using InvalidInstruction::InvalidInstruction;
+   public: 
     const char* what() const noexcept;
 };
 
 class InvalidRead: public InvalidInstruction {
     using InvalidInstruction::InvalidInstruction;
+   public: 
     const char* what() const noexcept;
 };
 
 class InvalidInput: public InvalidInstruction {
     using InvalidInstruction::InvalidInstruction;
+   public: 
     const char* what() const noexcept;
 };
 
 class InvalidWrite: public InvalidInstruction {
     using InvalidInstruction::InvalidInstruction;
+   public: 
     const char* what() const noexcept;
 };
 
 class DivisionByZero: public InvalidInstruction {
     using InvalidInstruction::InvalidInstruction;
+   public: 
     const char* what() const noexcept;
 };
 
 class ExecutionEnd: public std::exception {
+   public: 
     const char* what() const noexcept;
 };
 

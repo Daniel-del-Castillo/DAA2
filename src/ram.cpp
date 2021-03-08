@@ -5,6 +5,7 @@ RAM::RAM(const instructions_vec& instructions, std::fstream& input, std::fstream
     mem.input.swap(input);
     mem.output.swap(output);
     mem.instruction_counter = 0;
+    instructions_executed = 0;
 }
 
 RAM::~RAM() {
@@ -14,14 +15,13 @@ RAM::~RAM() {
 }
 
 int RAM::execute() {
-    int instructions_executed = 0;
     try {
         while(true) {
             instructions[mem.instruction_counter]->execute(mem);
             instructions_executed++;
         }
     } catch(ExecutionEnd& e) {}
-        return instructions_executed;
+    return instructions_executed;
 }
 
 const instructions_vec& RAM::get_instructions() const {
